@@ -1,27 +1,27 @@
 // Find all our documentation at https://docs.near.org
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{log, near_bindgen};
+use near_sdk::{log, near_bindgen, PanicOnDefault};
 use near_sdk::collections::{LazyOption, LookupMap, UnorderedMap, UnorderedSet};
-use near_sdk::json_types::{U128, U64};
+use near_sdk::json_types::{U128};
 use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::{
-    assert_one_yocto, env, ext_contract, AccountId, Balance, BorshStorageKey,
-    CryptoHash, Gas, PanicOnDefault, Promise, serde_json::json
+    env, AccountId
 };
-use std::collections::HashMap;
+
 
 mod metadata;
 mod enumeration;
 mod form;
+mod internal;
 
 use crate::metadata::*;
 
 // Define the contract structure
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize)]
+#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct Contract {
     pub owner_id: AccountId,
-    pub forms_by_id: UnorderedMap<AccountId, Form>,
+    pub forms_by_id: UnorderedMap<U128, Form>,
     pub forms_by_creator: LookupMap<AccountId, UnorderedSet<Form>>,
     pub metadata:LazyOption<OwlingContractMetadata>,
 }
