@@ -29,3 +29,8 @@
   results_images: [ 'adsf.com', 'asdf.ve', 'adsfr.com' ]
 }
 
+## Call Example 
+
+
+near call dev-1668044208565-60940875066684 create_form '{"title":"What kind of owl are you", "questions":["what time you feel more confortable to work", "Whats your favorite animal", "How pets do you currently have"], "possibly_answers":[["day", "night"], ["dog","cat","owl"], ["1", "2", "0"]], "answer_points":[[5,10],[2,3,100], [10,15,2]], "results":["Legendary Owl", "Commom Owl", "Rare Owl"], "results_images":["adsf.com","asdf.ve","asdf.com]}' --account-id lexdev.testnet --deposit 0.1
+

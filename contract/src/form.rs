@@ -44,7 +44,7 @@ impl Contract {
         assert!(results.len() == results_images.len());
 
         //The form ID will be based on the total forms amount
-        let id = U128((self.forms_by_id.len() + 1) as u128);
+        let id = U128((self.form_by_id.len() + 1) as u128);
 
         //Creator must attach an initial deposit for cover the form storages
         //Get initial storage usage by the form creation, before saved in storages

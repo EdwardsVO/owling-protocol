@@ -22,7 +22,7 @@ use crate::internal::*;
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct Contract {
     pub owner_id: AccountId,
-    pub forms_by_id: UnorderedMap<U128, Form>,
+    pub form_by_id: UnorderedMap<U128, Form>,
     pub forms_by_creator: LookupMap<AccountId, UnorderedSet<Form>>,
     pub metadata:LazyOption<OwlingContractMetadata>,
 }
@@ -51,7 +51,7 @@ impl Contract {
     pub fn new(owner_id: AccountId, metadata: OwlingContractMetadata) -> Self{
         let this: Contract = Self {
             owner_id: owner_id,
-            forms_by_id: UnorderedMap::new(
+            form_by_id: UnorderedMap::new(
                 StorageKey::FormsById.try_to_vec().unwrap(),
             ),
             forms_by_creator: LookupMap::new(StorageKey::FormsByCreator.try_to_vec().unwrap()),
