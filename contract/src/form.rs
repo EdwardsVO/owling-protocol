@@ -3,13 +3,13 @@ use crate::*;
 #[near_bindgen]
 impl Contract {
     //Users create forms
-    //The form will be created with mandatory questions, then N questions amount can be added 
-    //Every question must be supported by its respectives possibly anwsers 
-    //Each possibly answer must be supported by their points 
+    //The form will be created with mandatory questions, then N questions amount can be added
+    //Every question must be supported by its respectives possibly anwsers
+    //Each possibly answer must be supported by their points
     //Once the form it's created, it will be save in two storages: {forms_by_creator} and {form_by_id}
     //For scalabilitie purposes the creator must attach a low NEAR amount, this will help to cover the form storage
     //then, once the storage is paid, the yoctoNEARs left will be refunded back
-    //Dev to see how to query go to Enumerations module 
+    //Dev to see how to query go to Enumerations module
     //Requirements:
     // --- This function receives a deposit to cover the form storage
     // --- questions array lenght must match with possibly_answers lenght
@@ -37,9 +37,8 @@ impl Contract {
         //The final result will correspond to the image index
         results_images: Vec<String>,
     ) -> Form {
-
         //Check if user is covering storage price
-        assert!(env::attached_deposit() > 0, "Owling: Invalid deposit");    
+        assert!(env::attached_deposit() > 0, "Owling: Invalid deposit");
 
         //Check if the title it's empty
         assert!(title != "", "Owling: Invalid title form");
@@ -132,12 +131,7 @@ impl Contract {
         return form;
     }
 
-    pub fn submit_form (
-        &mut self,
-        form_id: FormId,
-        anwsers: Vec<String>
-    )  {
-
+    pub fn submit_form(&mut self, form_id: FormId, answers: Vec<String>) {
         //The form ID will be based on the total forms amount
         let id = U128((self.answer_by_id.len() + 1) as u128);
 
@@ -145,10 +139,24 @@ impl Contract {
 
         let form = self.form_by_id(form_id).unwrap();
 
+        let mut accumulate_points = 0;
+        let mut max_points = 0;
+
+        for (i, row) in form.possibly_answers.iter().enumerate() {
+            for (j, col) in row.iter().enumerate() {
+                if col == &answers[i] {
+                    let accumulate = form.answers_points[i][j];
+                    accumulate_points += accumulate;
+                }
+            }
+        }
+
+        for (i, row) in form.answers_points.iter().enumerate(){
+            (max_points) += row.iter().max().unwrap_or(&0);   
         
-        
+        }
+    
+
+
     }
-
 }
-
-
