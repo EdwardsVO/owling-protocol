@@ -49,7 +49,7 @@ pub struct Form {
 
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone)]
 #[serde(crate = "near_sdk::serde")]
-pub struct FormAnswer {
+pub struct Answer {
     pub id: AnswerId,
     
     //Link with the form 
@@ -57,8 +57,11 @@ pub struct FormAnswer {
     
     //User link
     pub wallet_id: AccountId,
+
+    //Answers
+    pub answers: Vec<String>,
     
-    //Accoumulate points
+    //Accumulate points
     pub total_points: U128,
     
     //Final result title 
@@ -66,5 +69,11 @@ pub struct FormAnswer {
     
     //Image result
     pub final_image: String
+
+}
+
+#[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone)]
+#[serde(crate = "near_sdk::serde")]
+pub struct AnswerMetadata {
 
 }

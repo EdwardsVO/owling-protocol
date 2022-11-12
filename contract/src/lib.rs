@@ -41,6 +41,12 @@ pub struct Contract {
     //Save an UnorderedSet of forms per user id or creator
     pub forms_by_creator: LookupMap<AccountId, UnorderedSet<Form>>,
 
+    //Save the answers by id, each key is the answer id 
+    pub answer_by_id: UnorderedMap<U128, Answer>,
+
+    //Save the users answer, each key is the user account id
+    pub answers_by_user: LookupMap<AccountId, UnorderedSet<Answer>>,
+
     //Contract metadata
     pub metadata:LazyOption<OwlingContractMetadata>,
 }
@@ -49,7 +55,9 @@ pub struct Contract {
 pub enum StorageKey {
     FormsById,
     FormsByCreator,
-    OwlingMetadata
+    OwlingMetadata,
+    AnswerById,
+    AnswerByUser
 }
 
 // Initialize the contract structure
@@ -75,11 +83,19 @@ impl Contract {
             form_by_id: UnorderedMap::new(
                 StorageKey::FormsById.try_to_vec().unwrap(),
             ),
-            forms_by_creator: LookupMap::new(StorageKey::FormsByCreator.try_to_vec().unwrap()),
+            forms_by_creator: LookupMap::new(
+                StorageKey::FormsByCreator.try_to_vec().unwrap()
+            ),
             metadata: LazyOption::new(
                 StorageKey::OwlingMetadata.try_to_vec().unwrap(),
                 Some(&metadata),
             ),
+            answer_by_id: UnorderedMap::new(
+                StorageKey::AnswerById.try_to_vec().unwrap(),
+            ),
+            answers_by_user: LookupMap::new(
+                StorageKey::AnswerByUser.try_to_vec().unwrap()
+            )
         };
         this
     }
