@@ -1,33 +1,62 @@
 # Owling Contract
 
-## Form test example 
+Create forms with funny questions its possibly answers and results.
+
+Fill the forms and share your result!
+## Interacting with the contract
+
+### Call functions
+
+#### create_form (Parameters)
+
+    Create Forms with the theme you want
+
+Parameters:
+  - title: String
+  - questions: Array<Questions>
+  - possibly_answers: Array<Array<String>>
+  - answers_points: Array<Array<Number>>
+  - results: Array<String>
+  - results_images: Array<String>
+
+#### submit_form (Parameters)
+
+    Fill existent Forms and get your result and image
+
+  Parameters:
+    - form_id: Number,
+    - answers: Array<String>
+
+### View functions
+
+#### forms_total_supply
+    Return the total amount of forms created
+
+#### form_by_id (Parameter)
+    Get an especific form from its id
+
+Parameter: 
+  - from_id: Number
+
+#### forms_by_creator (Parameter)
+    Get all the forms created by one user
+  
+Parameter: 
+  - creator_id: String
 
 
-{
-  id: '7',
-  title: 'What kind of owl are you',
-  status: 0,
-  creation: 1668132125240224000,
-  questions: [
-    'What is your aka',
-    'What is your age',
-    'Wich gender do you feel identified',
-    'what time you feel more confortable to work',
-    'Whats your favorite animal',
-    'How pets do you currently have'
-  ],
-  possibly_answers: [
-    [ '' ],
-    [ '' ],
-    [ '' ],
-    [ 'day', 'night' ],
-    [ 'dog', 'cat', 'owl' ],
-    [ '1', '2', '0' ]
-  ],
-  answers_points: [ [ 0 ], [ 0 ], [ 0 ], [ 5, 10 ], [ 2, 3, 100 ], [ 10, 15, 2 ] ],
-  results: [ 'Legendary Owl', 'Commom Owl', 'Rare Owl' ],
-  results_images: [ 'adsf.com', 'asdf.ve', 'adsfr.com' ]
-}
+#### answer_by_id (Parameter)
+    Get and answer by its id 
+
+Parameter: 
+  - answer_id: Number
+
+
+#### answer_by_user (Parameter)
+    Get all the forms submitted by one user
+
+Parameter: 
+  - user_id: String
 
 ## Call Example 
 
