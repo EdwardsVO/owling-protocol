@@ -29,8 +29,27 @@ impl Contract {
         } else {
             return vec![];
         };
+    }
 
+    //Get answer through answer id
+    pub fn answer_by_id(&self, answer_id: AnswerId) -> Option<Answer> {
 
+        //If exist return the searched form if not return null
+        if let Some(answer) = self.answer_by_id.get(&U128(answer_id)) {
+            return Some(answer);
+        } else {
+            None
+        }
+    }
+
+    pub fn answers_by_user(&self, user_id: AccountId) -> Vec<Answer> {
+        
+        let answers_by_user = self.answers_by_user.get(&user_id);
+        if let Some(answers_by_user) = answers_by_user {
+            return answers_by_user.to_vec();
+        } else {
+            return vec![];
+        };
     }
 
 }

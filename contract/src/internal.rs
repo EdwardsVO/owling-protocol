@@ -49,4 +49,16 @@ impl Contract {
         forms_set.insert(&form);
         self.forms_by_creator.insert(&creator, &forms_set);
     }
+
+    pub(crate) fn save_answer(&mut self, answer: Answer) {
+        let user = env::signer_account_id();
+        self.answer_by_id.insert(&U128(answer.id), &answer);
+        let mut answer_set = self.answers_by_user.get(&user).unwrap_or_else(|| {
+            UnorderedSet::new(
+                StorageKey::AnswerByUser.try_to_vec().unwrap()
+            )
+        });
+        answer_set.insert(&answer);
+        self.answers_by_user.insert(&user, &answer_set);
+    }
 }
