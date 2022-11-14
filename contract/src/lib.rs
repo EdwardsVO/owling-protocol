@@ -9,45 +9,45 @@ use near_sdk::{
 };
 use near_sdk::serde_json::json;
 
-//Developement modules
-//Contains all the information about structs 
+// Developement modules
+// Contains all the information about structs 
 mod metadata;
 
-//Contains get and view methods
+// Contains get and view methods
 mod enumeration;
 
-//Contains all the contract logic 
+// Contains all the contract logic 
 mod form;
 
-//Functions called by modules that might not necessarily be inside the contract implementation
-//Helps the contract readability
+// Functions called by modules that might not necessarily be inside the contract implementation
+// Helps the contract readability
 mod internal;
 
-//Functions and structs used on the project 
+// Functions and structs used on the project 
 use crate::metadata::*;
 use crate::internal::*;
 
-// Define the contract structure
+//  Define the contract structure
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct Contract {
-    //Contract owner id
+    // Contract owner id
     pub owner_id: AccountId,
 
-    //Storage that save the {Form} struct with the id as key
-    //Dev {Form} in Metadata module
+    // Storage that save the {Form} struct with the id as key
+    // Dev {Form} in Metadata module
     pub form_by_id: UnorderedMap<U128, Form>,
 
-    //Save an UnorderedSet of forms per user id or creator
+    // Save an UnorderedSet of forms per user id or creator
     pub forms_by_creator: LookupMap<AccountId, UnorderedSet<Form>>,
 
-    //Save the answers by id, each key is the answer id 
+    // Save the answers by id, each key is the answer id 
     pub answer_by_id: UnorderedMap<U128, Answer>,
 
-    //Save the users answer, each key is the user account id
+    // Save the users answer, each key is the user account id
     pub answers_by_user: LookupMap<AccountId, UnorderedSet<Answer>>,
 
-    //Contract metadata
+    // Contract metadata
     pub metadata:LazyOption<OwlingContractMetadata>,
 }
 
@@ -75,7 +75,7 @@ impl Contract {
         )
     }
 
-    //Initializes the storage through the StorageKey enum
+    // Initializes the storage through the StorageKey enum
     #[init]
     pub fn new(owner_id: AccountId, metadata: OwlingContractMetadata) -> Self{
         let this: Contract = Self {

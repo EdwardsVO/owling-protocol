@@ -71,9 +71,3 @@ pub struct Answer {
     pub final_image: String
 
 }
-
-#[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone)]
-#[serde(crate = "near_sdk::serde")]
-pub struct AnswerMetadata {
-
-}
