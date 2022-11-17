@@ -1,3 +1,5 @@
+use near_sdk::__private::schemars::_private::NoSerialize;
+
 use crate::*;
 
 #[near_bindgen]
@@ -144,26 +146,27 @@ impl Contract {
     //  ---
     pub fn submit_form(&mut self, form_id: FormId, answers: Vec<String>) -> Answer {
         // Check if the form id exist
-        let max_form_id = self.form_by_id.len() + 1;
+        let max_form_id = self.form_by_id.len();
         assert!(
-            form_id > U128(0) || form_id <= U128(max_form_id as u128),
+            form_id > U128(0) && form_id <= U128(max_form_id as u128),
             "Owling: Invalid form_id"
         );
         
         //Check if the submitter isn't the creator
         let forms_created = self.forms_by_creator(env::signer_account_id());
-        let form_not_exist = Some(forms_created.iter().filter(|form| form.id == form_id)).is_none(); 
+        let form_not_exist = forms_created.iter().find(|form| form.id == form_id).is_none(); 
+
         assert!(
             form_not_exist , "Owling: Creator can't answer their own form"
         );
 
         //Check if the submitter already fill the form
         let forms_submitted = self.answers_by_user(env::signer_account_id());
-        let answer_not_exist = Some(forms_submitted.iter().filter(|ans| ans.form_id == form_id)).is_none();
+        let answer_not_exist = (forms_submitted.iter().find(|ans| ans.form_id == form_id)).is_none();
         assert!(
             answer_not_exist, "Owling: Form already submitted"
         );
-        
+
         // The form ID will be based on the total forms amount
         let id = ((self.answer_by_id.len() + 1) as u128);
 
